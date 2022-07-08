@@ -1,0 +1,29 @@
+{% extends 'permutation/base.html' %}
+{% block title %}Liste salariés{% endblock %}
+{% block header %}Liste salariés{% endblock %}
+{% block content %}
+<div class="m-4">
+        {% if users %}
+        <table class="table table-sm table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prénom</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr><td>{{forloop.counter}}</td>
+                    <td>{{user.username}}</td>
+                    <td>{{user.first_name}}</td>
+                    <td>{{user.last_name}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+        <p>Pas d'utilisateurs</p>
+        {% endif %}
+        {% endblock %}</div>

@@ -1,0 +1,70 @@
+{% extends 'permutation/base.html' %}
+{% block title %}Mes demandes{% endblock %}
+{% block header %}Mes demandes{% endblock %}
+{% block content %}
+<script>
+    // Self-executing function
+    (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+    </script>
+<div class="my-4">
+    <form class="needs-validation" action="" method="post" novalidate>
+        {% csrf_token %}
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="firstName">Je suis de service le</label>
+            <div class="col-sm-5">
+                <input type="datetime-local" class='form-control' name="permut_start_datetime" id="id_permut_start_datetime" value="{{data.permut_start_datetime|date:'Y-m-d'}}T{{data.permut_start_datetime|date:'H:i'}}" required> 
+            </div>
+            <div class="col-sm-5">
+                <input type="time" class='form-control' name="permut_end_time" id="id_permut_end_time" value="{{data.permut_end_time|date:'H:i'}}" required>                
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="inputlocataire" class="col-sm-2 col-form-label">et je demande à permuter mon service avec celui de</label>
+            <div class="col-sm-10">
+                <select class="form-select" required name="permut_acceptant" id="id_permut_acceptant">
+                    {% for user in users %}
+                        <option value="{{user.id }}" {% if data.permut_acceptant_id == user.id %}selected{% endif %}>{{ user.last_name }} {{ user.first_name }}</option>
+                            {% endfor %}
+                 </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="firstName">de service le</label>
+            <div class="col-sm-5">
+                <input type="datetime-local" class='form-control' name="permut_acceptant_start_datetime" id="id_permut_acceptant_start_datetime" value="{{data.permut_acceptant_start_datetime|date:'Y-m-d'}}T{{data.permut_acceptant_start_datetime|date:'H:i'}}" required>
+            </div>
+            <div class="col-sm-5">
+                <input type="time" class='form-control' name="permut_acceptant_end_time" id="id_permut_acceptant_end_time" value="{{data.permut_acceptant_end_time|date:'H:i'}}" required>                
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label" for="lastName">Motif</label>
+            <div class="col-sm-10">
+                {{form.permut_motif}}
+            </div>
+        </div>
+<div class="row">
+    <div class="col-sm-10 offset-sm-2">
+        <button type="submit" class="btn btn-primary btn-sm">Modifier</button>
+        <a class="btn btn-secondary btn-sm ms-2" href="{% url 'mes_demandes' %}">Annuler</a>
+    </div>
+</div>
+</form>
+</div>
+{% endblock %}
