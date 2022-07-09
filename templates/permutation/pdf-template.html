@@ -6,7 +6,7 @@
     <title>Permutation.pdf</title>
     <link rel="shortcut icon" type="image/jpg" href="https://samsic-apmr.herokuapp.com/static/img/favicon.ico">
   <style>
-    body{font-size:1rem;}
+    body{font-size:1.2rem;}
       table {
   /*font-family: "Segoe UI", arial, sans-serif;*/
   font-family:"Roboto","Helvetica-neue",sans-serif;
@@ -37,23 +37,26 @@ p{padding:3px;}
     <tr><td colspan="2" style="text-align:left;">Site d'affectation :</td></tr>
   </table><p>&nbsp;</p>
   <table style="font-weight:bold;color:#000;text-align:left;">
-    <tr><td colspan="2" style="text-align:center;">Je suis de service le : <span style="text-decoration:underline;">{{ permutations.permut_start_datetime|date:'d-m-Y'}}</span> de <span style="text-decoration:underline;">{{ permutations.permut_start_datetime|date:'H:i'}}</span> à <span style="text-decoration:underline;">{{ permutations.permut_end_time|date:'H:i' }}</span><br>et je demande à permuter mon service avec celui de : </td></tr>
-    <tr><td style="text-align:left;">{{ permutations.permut_acceptant.last_name }} {{ permutations.permut_acceptant.first_name }}</td><td style="text-align:left;">Marticule : </td></tr>
-    <tr><td colspan="2" style="text-align:center;">de service le : <span style="text-decoration:underline;">{{ permutations.permut_acceptant_start_datetime|date:'d-m-Y'}}</span> de <span style="text-decoration:underline;">{{ permutations.permut_acceptant_start_datetime|date:'H:i'}}</span> à <span style="text-decoration:underline;">{{ permutations.permut_acceptant_end_time|date:'H:i' }}</span></td></tr>
-  </table><p>&nbsp;</p>
+    <tr><td colspan="2" style="text-align:center;">Je suis ({{ permutations.permut_demandant.last_name }} {{ permutations.permut_demandant.first_name }}) de service le : <span style="text-decoration:underline;">{{ permutations.permut_start_datetime|date:'d-m-Y'}}</span> de <span style="text-decoration:underline;">{{ permutations.permut_start_datetime|date:'H:i'}}</span> à <span style="text-decoration:underline;">{{ permutations.permut_end_time|date:'H:i' }}</span><br>et je demande à permuter mon service avec celui de {{ permutations.permut_acceptant.last_name }} {{ permutations.permut_acceptant.first_name }}<br>de service le : <span style="text-decoration:underline;">{{ permutations.permut_acceptant_start_datetime|date:'d-m-Y'}}</span> de <span style="text-decoration:underline;">{{ permutations.permut_acceptant_start_datetime|date:'H:i'}}</span> à <span style="text-decoration:underline;">{{ permutations.permut_acceptant_end_time|date:'H:i' }}</span></td></tr>
+    </table><p>&nbsp;</p>
   <table style="font-weight:bold;color:#000;">
-    <tr><td width="15%">Rappel des règles</td><td style="text-align:left;">    
+    <tr><td width="15%" style="background-color:#FFC;">Rappel des règles</td><td style="text-align:left;background-color:#FFC;">    
       <p style="margin:0;">La permutation doit être effectuée dans le même cycle.<br>
       Un justificatif écrit doit être fourni.<br>
       La demande doit être déposée avec un préavis de 10 jours.<br>
       La réponse de l'agence ou du chef de site dépend des besoins de service.<br>
-      <b>Vous ne pouvez permuter si vous n'avez pas obtenu l'autorisation expresse de votre responsable.</b><br>
-      <b><span style="color:#dc3545;">Demandeur doit télécherger la demande et envoyer à s.colombel@samsic.aero et t.marques-nunes@samsic.aero</span></b>
+      <b>Vous ne pouvez permuter si vous n'avez pas obtenu l'autorisation expresse de votre responsable.</b>
       </p></td></tr>
   </table><p>&nbsp;</p>
-    {{ permutations.permut_start_datetime }}
-    {{ permutations.permut_demandant }}
-    {{ permutations.permut_acceptant }}
+  <table style="font-weight:bold;color:#000;">
+    <tr><td colspan="2" style="text-align:left;">Motif de la demande, joindre un justificatif écrit : {% if permutations.permut_motif != None %}{{ permutations.permut_motif }}{% endif %}</td></tr>
+    <tr><td>Date : {% now "d-m-Y" %}<br>Signature du demandeur<br>{{ permutations.permut_demandant.last_name }} {{ permutations.permut_demandant.first_name }}</td><td>Date : {{ permutations.permut_updated_at|date:"d-m-Y" }}<br>Signature du salarié acceptant la permutation<br>{{ permutations.permut_acceptant.last_name }} {{ permutations.permut_acceptant.first_name }}</td></tr>
+     </table><p>&nbsp;</p>
+     <table style="font-weight:bold;color:#000;">
+      <tr><td colspan="2">------ Cadre réservé au resp. exploitation / chef de site ------</td></tr>
+      <tr><td>Réponse</td><td>Visa resp. exploitation / chef de site</td></tr>
+      <tr><td style="text-align:left;">Date réception de la demande : {% now "d-m-Y" %}<br><br>ACCORDÉ&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RÉFUSÉ<br><br>Motif de refus :<br><br><br></td><td style="text-align:left;">Date :<br><br>Nom :<br><br>Signature :<br><br><br></td></tr>
+      </table><p>&nbsp;</p>
     </body>
     </html>
     
